@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetGuardian Security Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5f9;color:#172033;font-family:Arial,sans-serif}
+header{background:#10243e;color:white;padding:25px 7%}
+header h1{margin:0;font-size:30px}
+header p{color:#cbd5e1}
+main{max-width:1100px;margin:30px auto;padding:0 20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.card,.panel{background:white;padding:22px;border-radius:12px;border:1px solid #e2e8f0}
+.card p{color:#64748b;font-size:13px}
+.number{font-size:32px;font-weight:bold}
+.panel{margin-top:22px;overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px;border-bottom:1px solid #e2e8f0;font-size:13px}
+th{background:#f8fafc}
+.status{color:{% if status == 'NORMAL' %}#15803d{% else %}#dc2626{% endif %};font-weight:bold}
+.note{color:#64748b;font-size:13px}
+footer{text-align:center;padding:25px;color:#64748b}
+</style>
+</head>
+<body>
+<header>
+<h1>🛡️ NetGuardian</h1>
+<p>Smart Network Anomaly Detector</p>
+</header>
+<main>
+<h2>Network Security Dashboard</h2>
+<p>Monitor network connections and identify predefined suspicious patterns.</p>
+<div class="cards">
+<div class="card"><p>TOTAL CONNECTIONS</p><div class="number">{{ total }}</div></div>
+<div class="card"><p>TCP CONNECTIONS</p><div class="number">{{ tcp }}</div></div>
+<div class="card"><p>UDP CONNECTIONS</p><div class="number">{{ udp }}</div></div>
+<div class="card"><p>SUSPICIOUS CONNECTIONS</p><div class="number">{{ suspicious }}</div></div>
+</div>
+<div class="panel">
+<h2>Security Status: <span class="status">{{ status }}</span></h2>
+<p class="note">This dashboard reports connections visible to the machine running the application. NORMAL does not guarantee that a system is secure.</p>
+</div>
+<div class="panel">
+<h2>Recent Network Activity</h2>
+<table>
+<tr><th>Protocol</th><th>Local Address</th><th>Remote Address</th></tr>
+{% for c in connections %}
+<tr><td>{{ c.protocol | upper }}</td><td>{{ c.local }}</td><td>{{ c.remote }}</td></tr>
+{% else %}
+<tr><td colspan="3">No connections available.</td></tr>
+{% endfor %}
+</table>
+</div>
+</main>
+<footer>NetGuardian | Computer Networking &amp; Cybersecurity Project</footer>
+</body>
+</html>
